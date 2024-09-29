@@ -34,6 +34,14 @@ app.get('/api/v1/tours/:id', (req, res) => {
   
 });
 
+app.patch('/api/v1/tours:id',(req,res)=>{
+    res.status(200).json({
+        status: 'success',
+        
+
+    })
+})
+
 app.post('/api/v1/tours',(req,res)=>{
     const newId = tours.length +1
     const newTour = Object.assign({id: newId},req.body)
