@@ -5,9 +5,10 @@ const router = express.Router()
 
 
 
-const{getAllTours, createTours} = tourController
+const{getAllTours, createTours,getTour} = tourController
 
 router.route('/').get(getAllTours).post(createTours)
+router.route('/:id').get(getTour)
 
 
 module.exports = router
