@@ -22,8 +22,7 @@ exports.createTours = (req,res)=>{
 
 exports.getTour = (req,res)=>{
     const id = +req.params.id
-    console.log(id)
-    console.log()
+    
     const tour = tours.find(el=>el.id === id);
     if(!tour) return res.status(404).json({
         status: 'failed',
@@ -38,3 +37,4 @@ exports.getTour = (req,res)=>{
         }
     })
 }
+
