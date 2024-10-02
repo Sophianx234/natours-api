@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const Tour = require('./../models/tourModel')
 
-exports.getAllTours = (req,res) =>{
-    console.log(res.body)
-    /* res.status(200).json({
+exports.getAllTours = async(req,res) =>{
+    const tours = await Tour.find()
+    res.status(200).json({
         status: 'success',
         result: tours.length,
         data: {
             tours
         }
         
-    }) */
+    }) 
 
 }
 
@@ -33,15 +33,17 @@ exports.createTours = async (req,res)=>{
     }
 }
 
-exports.getTour = (req,res)=>{
+exports.getTour = async(req,res)=>{
+    const id = req.params.id
+    console.log(id)
     
-
-    /* res.status(200).json({
+    const tour = await Tour.findById(id)
+    res.status(200).json({
         status: 'success',
         data:{
-            tour:tour
+            tour
         }
-    }) */
+    }) 
 }
 
 
