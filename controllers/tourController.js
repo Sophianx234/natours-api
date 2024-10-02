@@ -1,16 +1,16 @@
-const fs = require('fs')
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
+const mongoose = require('mongoose');
+const Tour = require('./../models/tourModel')
 
 exports.getAllTours = (req,res) =>{
     console.log(res.body)
-    res.status(200).json({
+    /* res.status(200).json({
         status: 'success',
         result: tours.length,
         data: {
             tours
         }
         
-    })
+    }) */
 
 }
 
@@ -21,20 +21,14 @@ exports.createTours = (req,res)=>{
 }
 
 exports.getTour = (req,res)=>{
-    const id = +req.params.id
     
-    const tour = tours.find(el=>el.id === id);
-    if(!tour) return res.status(404).json({
-        status: 'failed',
-        message: 'could not find tour'
-    })
 
-
-    res.status(200).json({
+    /* res.status(200).json({
         status: 'success',
         data:{
             tour:tour
         }
-    })
+    }) */
 }
+
 
