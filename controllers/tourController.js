@@ -15,9 +15,22 @@ exports.getAllTours = (req,res) =>{
 }
 
 
-exports.createTours = (req,res)=>{
-    
-    res.status(201).send('Hey you just post to Damian')
+exports.createTours = async (req,res)=>{
+    try{
+
+        const newTour = await Tour.create(req.body)
+        res.status(201).json({
+            status: 'failed',
+            data: {
+                tour: newTour
+            }
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'failed',
+            message: err
+        })
+    }
 }
 
 exports.getTour = (req,res)=>{
