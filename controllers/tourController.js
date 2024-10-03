@@ -46,4 +46,25 @@ exports.getTour = async(req,res)=>{
     }) 
 }
 
+exports.updateTour = async(req,res)=>{
+const tour = await Tour.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators: true})
+
+res.status(201).json({
+    status: 'success',
+    data: {
+        tour
+    }
+})
+}
+
+exports.deleteTour = async(req,res)=>{
+    const tour = await Tour.findByIdAndDelete(req.params.id)
+    res.json({
+        status: 'success',
+        data: {
+            tour: null
+        }
+    })
+}
+
 
