@@ -2,7 +2,16 @@ const mongoose = require('mongoose');
 const Tour = require('./../models/tourModel')
 
 exports.getAllTours = async(req,res) =>{
-    const tours = await Tour.find(req.query)
+    const queryObj = {...req.query}
+    const excludedFields = ['page','sort','limit','fields']
+    excludedFields.forEach(el=> delete queryObj[el]);
+
+    let queryStr = JSON.stringify(queryObj)
+    queryStr  = queryStr.replace(/\b(lte|lt|gte|gt)\b/g, match=> `$${match}`)
+     const query = await Tour.find(JSON.parse(queryStr))
+
+    const tours = await query
+
     res.status(200).json({
         status: 'success',
         result: tours.length,
