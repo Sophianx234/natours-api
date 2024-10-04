@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Tour = require('./../models/tourModel')
 
 exports.getAllTours = async(req,res) =>{
-    const tours = await Tour.find()
+    const tours = await Tour.find(req.query)
     res.status(200).json({
         status: 'success',
         result: tours.length,
