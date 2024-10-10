@@ -2,29 +2,13 @@ const mongoose = require('mongoose');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures')
 
-exports.getAllTours = async (req, res) => {
-  /* const queryObj = {...req.query}
-    const excludedFields = ['page','sort','limit','fields']
-    excludedFields.forEach(el=> delete queryObj[el]);
 
-    let queryStr = JSON.stringify(queryObj)
-    queryStr  = queryStr.replace(/\b(lte|lt|gte|gt)\b/g, match=> `$${match}`)
-     let query =  Tour.find(JSON.parse(queryStr))
-      */
-  /* if(req.query.sort){
-        const sortBy = req.query.sort.split(',').join(' ')
-        query = query.sort(sortBy)
-     }else{
-        query = query.sort('-createdAt')
-     } */
-  /* if (req.query.fields) {
-    const fields = req.query.fields.split(',').join(' ');
-    query = query.select(fields);
+const catchAsync = fn =>{
+  return (req,res,next)=>{
+    fn(req,res,next).catch(next)
   }
-  const page = +req.query.page;
-  const limit = +req.query.limit;
-  const skip = (page - 1) * limit;
-  query = query.skip(skip).limit(limit); */
+}
+exports.getAllTours = catchAsync(async (req, res,next) => {
   const features = new APIFeatures(Tour.find(), req.query).filter().sort().limitFields().paginate();
   const tours = await features.query;
 
@@ -33,12 +17,12 @@ exports.getAllTours = async (req, res) => {
     result: tours.length,
     data: {
       tours,
-    },
+    }
   });
-};
+  next()
+});
 
-exports.createTours = async (req, res) => {
-  try {
+exports.createTours = catchAsync(async (req, res,next)=> {
     const newTour = await Tour.create(req.body);
     res.status(201).json({
       status: 'failed',
@@ -46,15 +30,11 @@ exports.createTours = async (req, res) => {
         tour: newTour,
       },
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: err,
-    });
-  }
-};
+    next()
+  
+});
 
-exports.getTour = async (req, res) => {
+exports.getTour = catchAsync(async (req, res,next) => {
   const id = req.params.id;
   console.log(id);
 
@@ -65,9 +45,9 @@ exports.getTour = async (req, res) => {
       tour,
     },
   });
-};
+});
 
-exports.updateTour = async (req, res) => {
+exports.updateTour = catchAsync(async (req, res,next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -79,9 +59,9 @@ exports.updateTour = async (req, res) => {
       tour,
     },
   });
-};
+});
 
-exports.deleteTour = async (req, res) => {
+exports.deleteTour = catchAsync(async (req, res,next) => {
   const tour = await Tour.findByIdAndDelete(req.params.id);
   res.json({
     status: 'success',
@@ -89,4 +69,4 @@ exports.deleteTour = async (req, res) => {
       tour: null,
     },
   });
-};
+});
