@@ -9,20 +9,18 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required:[true, 'email is required'],
+        lowercase: true,
         unique: [true, 'email must be unique']
     },
-    photo:{
-        type: String,
-
-    },
+    photo:String,
     password: {
         type: String,
         required: [true,'must enter password'],
-        minLength:[8,'password must contain atleast 8 characters']
+        minLength:[8,'password must contain at least 8 characters']
     },
     passwordConfirm:{
-        type: Boolean,
-        default: false
+        type: String,
+        required:[true,'Please confirm your password']
     }
 })
 

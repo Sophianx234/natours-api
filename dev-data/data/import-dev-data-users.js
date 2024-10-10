@@ -18,6 +18,7 @@ const importData = async()=>{
 
         await User.create(usersJson)
         console.log('file imported successfully')
+        process.exit()
     }catch(err){
         console.log(err)
     }
@@ -27,7 +28,8 @@ const deleteData = async()=>{
     try{
         await User.deleteMany()
         console.log('Data deleted successfully')
-        exit
+        process.exit()
+
     }catch(err){
         console.log(err)
     }
