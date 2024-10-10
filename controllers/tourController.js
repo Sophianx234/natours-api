@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures')
+const catchAsync = require(`./../utils/catchAsync`)
 
 
-const catchAsync = fn =>{
-  return (req,res,next)=>{
-    fn(req,res,next).catch(next)
-  }
-}
 exports.getAllTours = catchAsync(async (req, res,next) => {
   const features = new APIFeatures(Tour.find(), req.query).filter().sort().limitFields().paginate();
   const tours = await features.query;
@@ -44,7 +40,8 @@ exports.getTour = catchAsync(async (req, res,next) => {
     data: {
       tour,
     },
-  });
+  })
+  next()
 });
 
 exports.updateTour = catchAsync(async (req, res,next) => {
@@ -59,6 +56,7 @@ exports.updateTour = catchAsync(async (req, res,next) => {
       tour,
     },
   });
+  next()
 });
 
 exports.deleteTour = catchAsync(async (req, res,next) => {
@@ -69,4 +67,5 @@ exports.deleteTour = catchAsync(async (req, res,next) => {
       tour: null,
     },
   });
+  next()
 });
